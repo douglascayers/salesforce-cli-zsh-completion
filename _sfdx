@@ -18,6 +18,7 @@ _1st_arguments=(
 	"force\:apex\:test\:report":"display test results"
 	"force\:apex\:test\:run":"invoke Apex tests"
 	"force\:apex\:trigger\:create":"create an Apex trigger"
+	"force\:auth\:device\:login":"authorize an org using a device code"
 	"force\:auth\:jwt\:grant":"authorize an org using the JWT flow"
 	"force\:auth\:list":"list auth connection information"
 	"force\:auth\:logout":"log out from authorized orgs"
@@ -57,7 +58,7 @@ _1st_arguments=(
 	"force\:mdapi\:retrieve\:report":"check the status of a metadata retrieval"
 	"force\:org\:clone":"clone a sandbox org"
 	"force\:org\:create":"create a scratch or sandbox org"
-	"force\:org\:delete":"mark a scratch org for deletion"
+	"force\:org\:delete":"mark a scratch or sandbox org for deletion"
 	"force\:org\:display":"get org description"
 	"force\:org\:list":"list all orgs you’ve created or authenticated to"
 	"force\:org\:open":"open an org in your browser"
@@ -68,7 +69,7 @@ _1st_arguments=(
 	"force\:org\:snapshot\:delete":"delete a scratch org snapshot"
 	"force\:org\:snapshot\:get":"get details about a scratch org snapshot"
 	"force\:org\:snapshot\:list":"list scratch org snapshots"
-	"force\:org\:status":"report sandbox org creation status and headlessly authenticate to org"
+	"force\:org\:status":"report sandbox org creation status and authenticate to org"
 	"force\:package1\:version\:create":"create a first-generation package version in the release org"
 	"force\:package1\:version\:create\:get":"retrieve the status of a package version creation request"
 	"force\:package1\:version\:display":"display details about a first-generation package version"
@@ -235,6 +236,17 @@ case "$words[1]" in
  '(-a|--apiversion)'{-a=,--apiversion=}'[API version number]:' \
  '(-s|--sobject)'{-s=,--sobject=}'[sObject to create a trigger on]:' \
  '(-e|--triggerevents)'{-e=,--triggerevents=}'[events that fire the trigger (before insert|before update|before delete|after insert|after update|after delete|after undelete)]:' \
+ )
+ ;;
+ force:auth:device:login)
+ _command_args=(
+ '(--json)--json[format output as json]' \
+ '(--loglevel)--loglevel=[logging level for this command invocation]:' \
+ '(-i|--clientid)'{-i=,--clientid=}'[OAuth client ID (aka consumer key)]:' \
+ '(-r|--instanceurl)'{-r=,--instanceurl=}'[login URL of the instance the org is on]:' \
+ '(-d|--setdefaultdevhubusername)'{-d,--setdefaultdevhubusername}'[set the authenticated org as the default Dev Hub org for scratch org creation]' \
+ '(-s|--setdefaultusername)'{-s,--setdefaultusername}'[set the authenticated org as the default username that all commands run against]' \
+ '(-a|--setalias)'{-a=,--setalias=}'[set an alias for the authenticated org]:' \
  )
  ;;
  force:auth:jwt:grant)
@@ -602,7 +614,8 @@ case "$words[1]" in
  '(--loglevel)--loglevel=[logging level for this command invocation]:' \
  '(-u|--targetusername)'{-u=,--targetusername=}'[username or alias for the target org; overrides default target org]:' \
  '(-a|--apiversion)'{-a=,--apiversion=}'[API version to use (the default is 46.0)]:' \
- '(-f|--resultfile)'{-f=,--resultfile=}'[path to the file where results are stored]:file:_files' \
+ '(-f|--resultfile)'{-f=,--resultfile=}'[filter metadata known by the CLI]:file:_files' \
+ '(-k|--filterknown)'{-k,--filterknown}'[path to the file where results are stored]' \
  )
  ;;
  force:mdapi:listmetadata)
